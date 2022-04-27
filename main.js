@@ -22,13 +22,7 @@ const filesList = exec('find').toString().split('\n').filter(function (filePath)
     return validity;
 });
 
-// console.log(filesList);
 console.log(`[INFO] Found ${filesList.length} audio files. Starting workflow.`);
-
-// if (fs.existsSync('.MusicCatalog.json')) {
-//     console.log(`[INFO] Found existing catalog file. Working in amendment mode. If you want to start anew, just delete the '.MusicCatalog.json' file.`);
-//     currentCatalog = JSON.parse(fs.readFileSync('.MusicCatalog.json').toString().trim());
-// };
 
 let currentCatalog = {
     "tracks": []
