@@ -45,8 +45,9 @@ const createTrackInfo = async function (musicFilePath, counter) {
 };
 
 // Main job loop
-filesList.forEach(function (musicFilePath, counter) {
-    currentCatalog.tracks.push(createTrackInfo(musicFilePath, counter));
+filesList.forEach(async function (musicFilePath, counter) {
+    let trackObj = await Promise.all( [createTrackInfo(musicFilePath, counter)] );
+    currentCatalog.tracks.push(trackObj);
 });
 
 console.log(`[INFO] Done.`);
