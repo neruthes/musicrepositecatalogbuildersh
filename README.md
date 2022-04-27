@@ -1,4 +1,4 @@
-# musicrepositecatalogbuilderjs
+# musicrepositecatalogbuildersh
 
 This is a small script for building a catalog in a given directory for all music files inside.
 
