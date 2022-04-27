@@ -7,7 +7,7 @@ const exec = require('child_process').execSync;
 
 // Dirty hacks
 const { promisify } = require('util');
-const NodeID3ReadAsync = promifify(NodeID3.read);
+const NodeID3ReadAsync = promisify(NodeID3.read);
 
 
 
@@ -17,8 +17,8 @@ const filesList = exec('find').toString().split('\n').filter(function (filePath)
     extWhiteList.map(ext => {
         if (filePath.endsWith(ext)) {
             validity = true;
-        };
-    })
+        }
+    });
     return validity;
 });
 
@@ -28,11 +28,11 @@ let currentCatalog = {
     "tracks": []
 };
 
-const createTrackInfo = function (musicFilePath, counter) {
+const createTrackInfo = async function (musicFilePath, counter) {
     const trackObj = {};
     const theFileStat = fs.statSync(musicFilePath);
     console.log(`Track ${counter} '${musicFilePath}'`);
-    const tags = await NodeID3ReadAsync.read(musicFilePath);
+    const tags = await NodeID3ReadAsync(musicFilePath);
     trackObj.path = musicFilePath.slice(2); // In order to remove the leading './' prefix
     trackObj.size_KB = Math.floor(theFileStat.size / 1024);
     [

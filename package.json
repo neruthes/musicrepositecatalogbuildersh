@@ -9,7 +9,9 @@
   "bin": {
     "musicrepositecatalogbuilderjs": "main.js"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^8.14.0"
+  },
   "scripts": {
     "test": "echo 0"
   },
