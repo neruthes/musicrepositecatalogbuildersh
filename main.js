@@ -1,13 +1,11 @@
 #!/bin/node
 
+const util = require('util');
 const fs = require('fs');
-const NodeID3 = require('node-id3');
 const exec = require('child_process').execSync;
 
+const mm = require('music-metadata');
 
-// Dirty hacks
-const { promisify } = require('util');
-const NodeID3ReadAsync = promisify(NodeID3.read);
 
 
 
@@ -32,14 +30,17 @@ const createTrackInfo = async function (musicFilePath, counter) {
     const trackObj = {};
     const theFileStat = fs.statSync(musicFilePath);
     console.log(`Track ${counter} '${musicFilePath}'`);
-    const tags = await NodeID3ReadAsync(musicFilePath);
-    trackObj.path = musicFilePath.slice(2); // In order to remove the leading './' prefix
+    const tags = await mm.parseFile(musicFilePath);
+
+    trackObj.path = musicFilePath.slice(2);         // Remove the leading './' prefix
     trackObj.size_KB = Math.floor(theFileStat.size / 1024);
     [
-        'title', 'artist', 'album', 'length', 'length', 'trackNumber', 'partOfSet'
+        'title', 'artist', 'album'
     ].map(function (field) {
-        trackObj[field] = tags[field];
+        trackObj[field] = tags.common[field];
     });
+    trackObj.track = tags.common.track.no;
+    trackObj.disk = tags.common.disk.no;
     return trackObj;
 };
 
@@ -51,3 +52,5 @@ filesList.forEach(function (musicFilePath, counter) {
 console.log(`[INFO] Done.`);
 
 fs.writeFileSync('.MusicCatalog.json', JSON.stringify(currentCatalog, '\t', 4));
+
+console.log(currentCatalog);

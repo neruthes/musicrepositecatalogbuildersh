@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "node-id3": "^0.2.3"
+    "music-metadata": "^7.12.3"
   },
   "name": "musicrepositecatalogbuilderjs",
   "description": "This is a small script for building a catalog in a given directory for all music files inside.",
